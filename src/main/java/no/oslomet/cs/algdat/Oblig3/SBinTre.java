@@ -1,10 +1,7 @@
 package no.oslomet.cs.algdat.Oblig3;
 
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Objects;
-import java.util.StringJoiner;
+import java.util.*;
 
 public class SBinTre<T> {
     private static final class Node<T>   // en indre nodeklasse
@@ -118,8 +115,21 @@ public class SBinTre<T> {
     }
 
     public int antall(T verdi) {
-        throw new UnsupportedOperationException("Ikke kodet ennå!");
 
+        Node<T> p = rot;
+        int antallVerdi = 0;
+
+        while (p != null)
+        {
+            int cmp = comp.compare(verdi,p.verdi);
+            if (cmp < 0) p = p.venstre;
+            else
+            {
+                if (cmp == 0) antallVerdi++;
+                p = p.høyre;
+            }
+        }
+        return antallVerdi;
     }
 
     public void nullstill() {
@@ -127,15 +137,26 @@ public class SBinTre<T> {
     }
 
     private static <T> Node<T> førstePostorden(Node<T> p) {
-        throw new UnsupportedOperationException("Ikke kodet ennå!");
+
+        while (true)
+        {
+            if (p.venstre != null) p = p.venstre;
+            else if (p.høyre != null) p = p.høyre;
+            else return p;
+        }
     }
 
     private static <T> Node<T> nestePostorden(Node<T> p) {
-        throw new UnsupportedOperationException("Ikke kodet ennå!");
+
+        if (p.forelder == null || p.forelder.høyre == null || p.forelder.høyre == p) return p.forelder;
+        else return førstePostorden(p.forelder.høyre);
     }
 
     public void postorden(Oppgave<? super T> oppgave) {
-        throw new UnsupportedOperationException("Ikke kodet ennå!");
+
+        Node<T> p = rot;
+        førstePostorden(p);
+
     }
 
     public void postordenRecursive(Oppgave<? super T> oppgave) {
